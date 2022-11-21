@@ -23,5 +23,4 @@ vim.o.cmdheight     = 2
 vim.o.title         = true
 vim.o.foldcolumn    = '1'
 vim.o.swapfile      = false
-
-
+vim.opt.completeopt = {'menu', 'menuone', 'noselect'}
