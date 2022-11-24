@@ -1,5 +1,6 @@
 -- setup for autocompletion / lsp / snippets / debugging 
 local lspconfig = require('lspconfig')
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
 local lsp_defaults = lspconfig.util.default_config
 local cmp = require('cmp')
 local luasnip = require('luasnip')
@@ -8,13 +9,13 @@ local luasnip = require('luasnip')
 lsp_defaults.capabilities = vim.tbl_deep_extend(
   'force',
   lsp_defaults.capabilities,
-  require('cmp_nvim_lsp').default_capabilities()
+  capabilities
 )
 
-lspconfig.pylsp.setup({})
-lspconfig.clangd.setup({})
-lspconfig.rust_analyzer.setup({})
-lspconfig.tsserver.setup({})
+lspconfig.pylsp.setup({capabilities = capabilities})
+lspconfig.clangd.setup({capabilities = capabilities})
+lspconfig.rust_analyzer.setup({capabilities = capabilities})
+lspconfig.tsserver.setup({capabilities = capabilities})
 
 
 cmp.setup({
@@ -28,6 +29,10 @@ cmp.setup({
             {name = 'nvim_lsp'},
             {name = 'luasnip' },
             {name = 'buffer'  },
-        })
+        }),
+        window = {
+            completion = cmp.config.window.bordered(),
+            documentation = cmp.config.window.bordered(),
+        },
     })
 
