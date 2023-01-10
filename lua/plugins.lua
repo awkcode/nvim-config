@@ -4,6 +4,7 @@ vim.cmd [[packadd packer.nvim]]
 return require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
   use 'jiangmiao/auto-pairs'
+  use 'junegunn/goyo.vim'
 
   use 'neovim/nvim-lspconfig'
   use 'hrsh7th/nvim-cmp'
@@ -25,6 +26,7 @@ return require('packer').startup(function(use)
   use 'nvim-telescope/telescope.nvim'
   use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
   use 'nvim-telescope/telescope-file-browser.nvim'
+  use 'svrana/neosolarized.nvim'
 
 end)
 
