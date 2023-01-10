@@ -82,3 +82,5 @@ vim.api.nvim_set_keymap(
   { noremap = true }
 )
 
+-- some configurations for the snippet engine 
+require("luasnip.loaders.from_vscode").lazy_load()
