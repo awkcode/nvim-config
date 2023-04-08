@@ -5,8 +5,15 @@ return require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
   use 'jiangmiao/auto-pairs'
   use 'junegunn/goyo.vim'
-
+    
+  use 'williamboman/mason.nvim'    
+  use 'williamboman/mason-lspconfig.nvim'
+  use 'simrat39/rust-tools.nvim'
+  use 'hrsh7th/cmp-nvim-lsp-signature-help'
+  use 'hrsh7th/cmp-vsnip'                             
+  use 'hrsh7th/vim-vsnip'     
   use 'neovim/nvim-lspconfig'
+
   use 'hrsh7th/nvim-cmp'
   use 'hrsh7th/cmp-nvim-lsp'
   use 'hrsh7th/cmp-buffer'
@@ -14,6 +21,7 @@ return require('packer').startup(function(use)
   use 'L3MON4D3/LuaSnip'
   use 'saadparwaiz1/cmp_luasnip'
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
+  use { 'maxmellon/vim-jsx-pretty' }
   use {
   'nvim-lualine/lualine.nvim',
   requires = { 'kyazdani42/nvim-web-devicons', opt = true }
@@ -28,6 +36,7 @@ return require('packer').startup(function(use)
   use 'nvim-telescope/telescope-file-browser.nvim'
   use 'svrana/neosolarized.nvim'
   use 'rafamadriz/friendly-snippets'
+  use({ "iamcco/markdown-preview.nvim", run = "cd app && npm install", setup = function() vim.g.mkdp_filetypes = { "markdown" } end, ft = { "markdown" }, })
 
 end)
 

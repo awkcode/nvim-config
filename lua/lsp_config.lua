@@ -14,8 +14,9 @@ lsp_defaults.capabilities = vim.tbl_deep_extend(
 
 lspconfig.pylsp.setup({capabilities = capabilities})
 lspconfig.clangd.setup({capabilities = capabilities})
-lspconfig.rust_analyzer.setup({capabilities = capabilities})
 lspconfig.tsserver.setup({capabilities = capabilities})
+
+require'lspconfig'.rust_analyzer.setup{}
 
 vim.api.nvim_create_autocmd('LspAttach', {
   desc = 'LSP actions',
@@ -65,29 +66,80 @@ vim.api.nvim_create_autocmd('LspAttach', {
 })
 
 cmp.setup({
-    snippet = {
-        expand = function(args) 
-            require('luasnip').lspexpand(args.body)
-        end
-        },
+    snippet={
+    expand = function(args)
+        vim.fn["vsnip#anonymous"](args.body)
+    end,
+    },
     sources = cmp.config.sources({
         {name = 'path'    },
-        {name = 'nvim_lsp'},
-        {name = 'luasnip' },
-        {name = 'buffer'  },
+        {name = 'nvim_lsp', keyword_length=3},
+        { name = 'nvim_lsp_signature_help'},  -- display function signatures with current parameter emphasized
+        { name = 'vsnip', keyword_length = 2 },         -- nvim-cmp source for vim-vsnip  
+        {name = 'buffer' , keyword_length = 2},
+        { name = 'nvim_lua', keyword_length = 2},       -- complete neovim's Lua runtime API such vim.lsp.*
     }),
     window = {
         completion = cmp.config.window.bordered(),
         documentation = cmp.config.window.bordered(),
     },
     mapping = {
-    ['<Up>']   = cmp.mapping.select_prev_item(select_opts),
-    ['<Down>'] = cmp.mapping.select_next_item(select_opts),
-    ['<C-p>']  = cmp.mapping.select_prev_item(select_opts),
-    ['<C-n>']  = cmp.mapping.select_next_item(select_opts),
-    ['<C-u>'] = cmp.mapping.scroll_docs(-4),
-    ['<C-f>'] = cmp.mapping.scroll_docs(4),
-    ['<CR>'] = cmp.mapping.confirm({select = false}),
-    }
+        ['<Up>']   = cmp.mapping.select_prev_item(select_opts),
+        ['<Down>'] = cmp.mapping.select_next_item(select_opts),
+        ['<C-p>']  = cmp.mapping.select_prev_item(select_opts),
+        ['<C-n>']  = cmp.mapping.select_next_item(select_opts),
+        ['<C-u>'] = cmp.mapping.scroll_docs(-4),
+        ['<C-f>'] = cmp.mapping.scroll_docs(4),
+        ['<C-Space>'] = cmp.mapping.complete(),
+        ['<CR>'] = cmp.mapping.confirm({
+            behavior = cmp.ConfirmBehavior.Insert,
+            select = true, 
+        }),
+    },
+    formatting = {
+      fields = {'menu', 'abbr', 'kind'},
+      format = function(entry, item)
+          local menu_icon ={
+              nvim_lsp = 'λ',
+              vsnip = '⋗',
+              buffer = 'Ω',
+              path = '🖫',
+          }
+          item.menu = menu_icon[entry.source.name]
+          return item
+      end,
+    },
     })
+-- LSP Diagnostics Options Setup 
+local sign = function(opts)
+  vim.fn.sign_define(opts.name, {
+    texthl = opts.name,
+    text = opts.text,
+    numhl = ''
+  })
+end
+
+sign({name = 'DiagnosticSignError', text = ''})
+sign({name = 'DiagnosticSignWarn', text = ''})
+sign({name = 'DiagnosticSignHint', text = ''})
+sign({name = 'DiagnosticSignInfo', text = ''})
+
+vim.diagnostic.config({
+    virtual_text = false,
+    signs = true,
+    update_in_insert = true,
+    underline = true,
+    severity_sort = false,
+    float = {
+        border = 'rounded',
+        source = 'always',
+        header = '',
+        prefix = '',
+    },
+})
+
+vim.cmd([[
+set signcolumn=yes
+autocmd CursorHold * lua vim.diagnostic.open_float(nil, { focusable = false })
+]])
 
