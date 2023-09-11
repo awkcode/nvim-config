@@ -15,7 +15,9 @@ lsp_defaults.capabilities = vim.tbl_deep_extend(
 lspconfig.pylsp.setup({capabilities = capabilities})
 lspconfig.intelephense.setup({capabilities = capabilities})
 lspconfig.clangd.setup({capabilities = capabilities})
+lspconfig.gopls.setup({capabilities = capabilities})
 lspconfig.tsserver.setup({capabilities = capabilities})
+lspconfig.cssls.setup({capabilities = capabilities})
 
 require'lspconfig'.rust_analyzer.setup{}
 
