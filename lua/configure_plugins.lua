@@ -38,10 +38,6 @@ require('lualine').setup {
   inactive_winbar = {},
   extensions = {}
 }
-require('neosolarized').setup({
-    comment_italics = true,
-    background_set = true
-})
 require('telescope').setup {
   extensions = {
     fzf = {
