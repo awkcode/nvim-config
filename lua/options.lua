@@ -25,7 +25,7 @@ vim.opt.completeopt = {'menu', 'menuone', 'noselect'}
 vim.opt.shortmess = vim.opt.shortmess + { c = true}
 vim.api.nvim_set_option('updatetime', 300) 
 vim.o.guicursor = 'n-v-c-sm-i-ci-ve:block,r-cr-o:hor20,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor'
-vim.cmd 'colorscheme ron'
+vim.cmd 'colorscheme default'
 
 -- Fixed column for diagnostics to appear
 -- Show autodiagnostic popup on cursor hover_range
